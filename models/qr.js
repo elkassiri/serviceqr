@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
+const { object } = require("yup");
 
 //creat the schema
 const qrSchema = new mongoose.Schema({
-  _qrcode: mongoose.Schema.Types.ObjectId, 
   idservice: {
     type: String,
     required: true,
@@ -29,4 +29,4 @@ const qrSchema = new mongoose.Schema({
   },
 });
 
-exports.Service = new mongoose.model("QRservice", qrSchema);
+exports.QRservice = new mongoose.model("QRservice", qrSchema);

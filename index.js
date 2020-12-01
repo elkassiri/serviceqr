@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // //routers
-app.use("/api/services", serviceRoute);
+app.use("/api/myturn", serviceRoute);
 
 
 //connect to mongoose
