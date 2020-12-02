@@ -9,6 +9,12 @@ const qrSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 20,
   },
+  nameservice: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 30,
+  },
   description: {
     type: String,
     required: true,

@@ -38,6 +38,7 @@ router.get("/client/getall/:qr", (req, res) => {
       if (service)
         res.json({
           idservice: service.idservice,
+          nameservice: service.nameservice,
           description: service.description,
           nbcours: service.nbcours,
         });
@@ -50,13 +51,25 @@ router.get("/client/getall/:qr", (req, res) => {
 
 //***************************************SERVICE*********************************************************//
 
-//GET:select les qr d'un service
+//GET:select le nameservice using le idservice
+router.get("/service/getnameservice/:service", (req, res) => {
+  var service = req.params.service;
+  QRservice.find({ idservice: service }, function (err, docs) {
+    let qr = [];
+    docs.forEach((element) => {
+      qr.push(element.nameservice);
+    });
+    res.json(Object.assign({}, qr));
+  });
+});
+
+//GET:select les qr et les descriptions qui ont le meme service
 router.get("/service/get/:service", (req, res) => {
   var service = req.params.service;
   QRservice.find({ idservice: service }, function (err, docs) {
     let qr = [];
     docs.forEach((element) => {
-      qr.push({ qr: element._id, name: element.name });
+      qr.push({ qr: element._id, description: element.description });
     });
     res.json(Object.assign({}, qr));
   });
@@ -67,6 +80,7 @@ router.get("/service/getall/:qr", (req, res) => {
     .then((service) => {
       if (service)
         res.json({
+          nameservice:service.nameservice,
           description: service.description,
           nbcours: service.nbcours,
           nbtotal: service.nbtotal,
@@ -91,8 +105,8 @@ router.put("/service/put/:qr", async (req, res) => {
   res.send(updatedService);
 });
 
-//GET:retourne all information about a qr
-router.get("/service/getactualiser/:qr", (req, res) => {
+//GET:retourne nbcours et nbtotal  pour un QR qr
+router.get("/service/getinfo/:qr", (req, res) => {
   QRservice.findById(req.params.qr)
     .then((service) => {
       if (service)
@@ -118,7 +132,6 @@ router.put("/service/put/actualiser/:qr", async (req, res) => {
   res.send(updatedService);
 });
 
-
 ////////////////////////////////////////////////////////////
 
 //Post:creat new service
@@ -140,8 +153,6 @@ router.post("/post", (req, res) => {
     });
 });
 
-
-
 //GET:all
 router.get("/all/get", (req, res) => {
   QRservice.find()
@@ -150,7 +161,5 @@ router.get("/all/get", (req, res) => {
       res.status(500).send("something went wrong");
     });
 });
-
-
 
 module.exports = router;
