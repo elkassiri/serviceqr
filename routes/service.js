@@ -55,12 +55,12 @@ router.get("/client/getall/:qr", (req, res) => {
 router.get("/service/getnameservice/:service", (req, res) => {
   var service = req.params.service;
   QRservice.find({ idservice: service }, function (err, docs) {
-    let qr = [];
+    let  servicename = [];
     docs.forEach((element) => {
-      qr.push(element.nameservice);
+      servicename.push({ nameservice: element.nameservice });
     });
-    res.json(Object.assign({}, qr));
-  });
+    res.json(servicename);
+  }).limit(1);
 });
 
 //GET:select les qr et les descriptions qui ont le meme service
@@ -71,7 +71,7 @@ router.get("/service/get/:service", (req, res) => {
     docs.forEach((element) => {
       qr.push({ qr: element._id, description: element.description });
     });
-    res.json(Object.assign({}, qr));
+    res.json(qr);
   });
 });
 //GET:retourne all information about a qr
