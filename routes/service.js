@@ -55,7 +55,7 @@ router.get("/client/getall/:qr", (req, res) => {
 router.get("/service/getnameservice/:service", (req, res) => {
   var service = req.params.service;
   QRservice.find({ idservice: service }, function (err, docs) {
-    let  servicename = [];
+    let servicename = [];
     docs.forEach((element) => {
       servicename.push({ nameservice: element.nameservice });
     });
@@ -80,7 +80,7 @@ router.get("/service/getall/:qr", (req, res) => {
     .then((service) => {
       if (service)
         res.json({
-          nameservice:service.nameservice,
+          nameservice: service.nameservice,
           description: service.description,
           nbcours: service.nbcours,
           nbtotal: service.nbtotal,
@@ -91,22 +91,23 @@ router.get("/service/getall/:qr", (req, res) => {
       res.status(500).send("ERROR FOUND");
     });
 });
-//GET:retourne all information about a qr
-router.get("/service/getname/:name", (req, res) => {
-  var entername = req.params.name;
-  QRservice.find({name:entername }).then((service) => {
-    if (service)
-      res.json({
-        nameservice:service.nameservice,
-        description: service.description,
-        nbcours: service.nbcours,
-        nbtotal: service.nbtotal,
-      });
-    res.status(404).send("erreur");
-  })
-  .catch((error) => {
-    res.status(500).send("ERROR FOUND");
-  });
+//GET:select le nameservice using le idservice
+router.get("/service/getnameserviceqr/:service", (req, res) => {
+  var service = req.params.service;
+  QRservice.find({ idservice: service })
+    .then((service) => {
+      if (service)
+        res.json({
+          nameservice: service.nameservice,
+          description: service.description,
+          nbcours: service.nbcours,
+          nbtotal: service.nbtotal,
+        });
+      res.status(404).send("erreur");
+    })
+    .catch((error) => {
+      res.status(500).send("ERROR FOUND");
+    });
 });
 //Boutton suivant
 //put : nbcours++
