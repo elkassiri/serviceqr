@@ -91,7 +91,23 @@ router.get("/service/getall/:qr", (req, res) => {
       res.status(500).send("ERROR FOUND");
     });
 });
-
+//GET:retourne all information about a qr
+router.get("/service/getname/:name", (req, res) => {
+  var entername = req.params.name;
+  QRservice.find({name:entername }).then((service) => {
+    if (service)
+      res.json({
+        nameservice:service.nameservice,
+        description: service.description,
+        nbcours: service.nbcours,
+        nbtotal: service.nbtotal,
+      });
+    res.status(404).send("erreur");
+  })
+  .catch((error) => {
+    res.status(500).send("ERROR FOUND");
+  });
+});
 //Boutton suivant
 //put : nbcours++
 router.put("/service/put/:qr", async (req, res) => {
