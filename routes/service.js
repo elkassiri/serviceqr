@@ -69,7 +69,7 @@ router.get("/service/get/:service", (req, res) => {
   QRservice.find({ idservice: service }, function (err, docs) {
     let qr = [];
     docs.forEach((element) => {
-      qr.push({ qr: element._id, description: element.description });
+      qr.push({ qr: element._id, description: element.description , nameservice:element.nameservice , nbtotal:element.nbtotal , nbcours:element.nbcours});
     });
     res.json(qr);
   });
